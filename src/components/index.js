@@ -2,4 +2,3 @@ export {default as Navbar} from './Navbar';
 export {default as Cryptocurrencies} from './Cryptocurrencies'
 export {default as Homepage} from './Homepage'
 export {default as Subsecription } from './Subsecription'
-export { default as CryptoDetails } from './CryptoDetails';

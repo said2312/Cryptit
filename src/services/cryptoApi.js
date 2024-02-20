@@ -10,15 +10,11 @@ const createRequest = (url) => ({ url:'https://coinranking1.p.rapidapi.com/coins
 export const cryptoApi = createApi({
   reducerPath: 'cryptoApi',
   baseQuery: fetchBaseQuery({ baseUrl:'https://coinranking1.p.rapidapi.com/coins'}),
-  //We specify what kind of data we want from the external service. For example, we want a list of cryptocurrencies or historical data of a specific cryptocurrency.
   endpoints: (builder) => ({
     getCryptos: builder.query({
       query: (count) =>  createRequest('/coins',count),
     }),
-    getCryptoDetails: builder.query({
-      query: (coinId) => createRequest(`/coin/${coinId}`),
-    }),
-
+   
     getCryptoHistory: builder.query({
       query: ({ coinId, timeperiod }) => createRequest(`coin/${coinId}/history?timeperiod=${timeperiod}`),
     }),
@@ -28,6 +24,5 @@ export const cryptoApi = createApi({
 
 export const {
   useGetCryptosQuery,
-  useGetCryptoDetailsQuery,
   useGetCryptoHistoryQuery,
 } = cryptoApi;
