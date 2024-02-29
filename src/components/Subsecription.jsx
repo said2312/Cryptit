@@ -1,11 +1,11 @@
-
 import React, { useState } from 'react';
-import { Form, Input, Button, Typography } from 'antd';
+import { Form, Input, Button, Typography , Card } from 'antd';
+import { MailOutlined, UserOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 const { Title } = Typography;
 
-const Subsecription = ({ simplified }) => {
+const SubscriptionForm = ({ simplified }) => {
   const [showSubscriptionForm, setShowSubscriptionForm] = useState(false);
 
   const handleReadMoreClick = () => {
@@ -15,10 +15,10 @@ const Subsecription = ({ simplified }) => {
   const handleSubmit = async (values) => {
     try {
       await axios.post('http://localhost:5000/subscribe', values);
-      alert(' you successfully subscribed to news');
+      alert('You have successfully subscribed to news!');
     } catch (error) {
       console.error(error);
-      alert('Subscription failed. Please try again');
+      alert('Subscription failed. Please try again.');
     }
   };
 
@@ -27,27 +27,38 @@ const Subsecription = ({ simplified }) => {
       <Title level={2}>News</Title>
 
       {!simplified && (
-        <div className="subscription-container">
-          <Title level={3}>Subscribe to be Updated</Title>
-          <Title level={4} onClick={handleReadMoreClick} style={{color:'brown'}}>Read more</Title>
-        </div>
+        <Card className="subscription-container" style={{ textAlign: 'center', padding: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+        <Title level={3}>Subscribe to be Updated</Title>
+        <Button type="link" onClick={handleReadMoreClick} style={{ color: 'brown' }}>
+          Read more
+        </Button>
+      </Card>
       )}
 
       {showSubscriptionForm && (
-        <Form onFinish={handleSubmit}>
-          
-          <Form.Item name="firstName" label="First Name" rules={[{ required: true, message: 'Please enter first name' }]}>
-            <Input />
+        <Form onFinish={handleSubmit} layout="vertical">
+          <Form.Item
+            name="firstName"
+            label="First Name"
+            rules={[{ required: true, message: 'Please enter your first name' }]}
+          >
+            <Input prefix={<UserOutlined />} placeholder="First Name" />
           </Form.Item>
-          <Form.Item name="lastName" label="Last Name"  required rules={[{  message: 'Please enter last name' }]}>
-            <Input />
+          <Form.Item name="lastName" label="Last Name" rules={[{ required: true, message: 'Please enter your last name' }]}>
+            <Input prefix={<UserOutlined />} placeholder="Last Name" />
           </Form.Item>
-          <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email', message: 'Please enter correct email address' }]}>
-            <Input />
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              { required: true, message: 'Please enter your email address' },
+              { type: 'email', message: 'Please enter a valid email address' },
+            ]}
+          >
+            <Input prefix={<MailOutlined />} placeholder="Email" />
           </Form.Item>
-<br/><br/>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
               Subscribe
             </Button>
           </Form.Item>
@@ -57,4 +68,4 @@ const Subsecription = ({ simplified }) => {
   );
 };
 
-export default Subsecription ;
+export default SubscriptionForm;
