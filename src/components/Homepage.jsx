@@ -1,41 +1,51 @@
 import React from 'react';
 import millify from 'millify';
-import { Typography, Row, Col, Statistic } from 'antd';
 import { Link } from 'react-router-dom';
-
+import { Button } from 'antd';
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import Cryptocurrencies from './Cryptocurrencies';
-import Subsecription from './Subsecription';
 
-const { Title } = Typography;
+const compact = (v) => (v === undefined || v === null || v === '' ? '—' : millify(Number(v)));
+const money = (v) => (compact(v) === '—' ? '—' : `$${compact(v)}`);
 
 const Homepage = () => {
-  const { data, isFetching } = useGetCryptosQuery(10);
-  const globalStats = data?.data?.stats;
+  const { data, isLoading } = useGetCryptosQuery(10);
+  const stats = data?.data?.stats;
 
-  if (isFetching) return ('...loading');
+  const items = [
+    { label: 'Total market cap', value: money(stats?.totalMarketCap) },
+    { label: '24h volume', value: money(stats?.total24hVolume) },
+    { label: 'Coins tracked', value: compact(stats?.total) },
+    { label: 'Exchanges', value: compact(stats?.totalExchanges) },
+    { label: 'Markets', value: compact(stats?.totalMarkets) },
+  ];
 
   return (
     <>
-      <Title level={2} className="heading">Global Crypto Stats</Title>
-      <Row gutter={[32, 32]}>
-        <Col span={12}><Statistic title="Total Cryptocurrencies" value={globalStats?.total} /></Col>
-        <Col span={12}><Statistic title="Total Exchanges" value={millify(globalStats?.totalExchanges)} /></Col>
-        <Col span={12}><Statistic title="Total Market Cap:" value={millify(globalStats?.totalMarketCap)} /></Col>
-        <Col span={12}><Statistic title="Total 24h Volume" value={millify(globalStats?.total24hVolume)} /></Col>
-        <Col span={12}><Statistic title="Total Markets" value={millify(globalStats?.totalMarkets)} /></Col>
-      </Row>
-      <div className="home-heading-container">
-        <Title level={2} className="home-title">Top populaire Cryptos In The World</Title>
-        <Title level={3} className="show-more"><Link to="/cryptocurrencies">Show more</Link></Title>
+      <section className="hero">
+        <h1>Crypto prices, without the noise.</h1>
+        <p>Live prices, market cap and 24-hour moves for the biggest coins.</p>
+        <Link to="/cryptocurrencies">
+          <Button type="primary" size="large">Browse all coins</Button>
+        </Link>
+      </section>
+
+      <section className="stat-band" aria-label="Global market stats">
+        {items.map((s) => (
+          <div className="stat" key={s.label}>
+            <div className="stat-label">{s.label}</div>
+            <div className="stat-value">
+              {isLoading ? <span className="sk" style={{ width: '60%', height: 28 }} /> : s.value}
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <div className="section-head">
+        <h2>Top coins</h2>
+        <Link to="/cryptocurrencies" className="text-link">See all coins</Link>
       </div>
-      <Cryptocurrencies simplified={true}  />
-      <div className="home-heading-container">
-        <Title level={2} className="home-title">Subsecribe To be Updated</Title>
-        <h3> to make you inform about the crypto cryptocurrencies just subscribd for us </h3>
-        <Title level={3}><Link to="/subsecription" >Read more</Link></Title>
-      </div>
-      <Subsecription simplified />
+      <Cryptocurrencies simplified />
     </>
   );
 };

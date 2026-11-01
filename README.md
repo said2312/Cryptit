@@ -1,70 +1,50 @@
-# Getting Started with Create React App
+# Cryptit
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A responsive cryptocurrency tracker built with React, Redux Toolkit Query and Ant Design. See live prices, market cap and 24-hour changes for the top coins, with search and a dark/light theme.
 
-## Available Scripts
+## Screenshots
 
-In the project directory, you can run:
+| Home (dark) | Coins list (light) | Mobile |
+| --- | --- | --- |
+| ![Home](screenshots/Screenshot%20(172).png) | ![Coins](screenshots/Screenshot%20(173).png) | ![Mobile](screenshots/Screenshot%202026-11-01%20204044.png) |
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Global market stats and the top 10 coins on the home page
+- Full list of up to 100 coins with search by name or symbol
+- Dark and light theme, remembered between visits
+- Responsive layout, loading skeletons and error handling
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech stack
 
-### `npm test`
+React, Redux Toolkit (RTK Query), Ant Design, React Router, and the [Coinranking API](https://coinranking.com/api).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting started
 
-### `npm run build`
+You need Node.js 18+ and a free Coinranking API key (no credit card).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+git clone https://github.com/said2312/Cryptit.git
+cd Cryptit
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Create a `.env` file in the project root:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+REACT_APP_COINRANKING_KEY=your_api_key_here
+```
 
-### `npm run eject`
+Then start the app and open http://localhost:3000:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Restart the server whenever you change `.env`. The file is ignored by Git, so your key stays private.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Data
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Note: because this is a frontend-only app, the API key is visible in the browser bundle. That is fine for a personal project, but use a server proxy for production.

@@ -1,32 +1,80 @@
-import React from 'react'
-import {Button,Menu,Typography ,Avatar} from 'antd'
-import {Link} from 'react-router-dom';
-import {HomeOutlined,BulbOutlined,FundOutlined } from '@ant-design/icons';
-import  icon from '../images/cryptocurrency.png'
-const Navbar = () => {
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { Drawer } from 'antd';
+import {
+  HomeOutlined,
+  DollarOutlined,
+  MenuOutlined,
+  BulbOutlined,
+  BulbFilled,
+} from '@ant-design/icons';
+import icon from '../images/cryptocurrency.png';
+
+const links = [
+  { to: '/', label: 'Home', icon: <HomeOutlined />, end: true },
+  { to: '/cryptocurrencies', label: 'Cryptocurrencies', icon: <DollarOutlined /> },
+];
+
+const linkClass = ({ isActive }) => `nav-link${isActive ? ' active' : ''}`;
+
+const Navbar = ({ mode, onToggleTheme }) => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className='nav-container'>
-        <div className='logo-container'>
-            <Avatar src={icon} size='large'/>
-            <Typography.Title level={2} className='logo'>
-                <Link to='/'>Cryptit</Link>
-            </Typography.Title>
+    <header className="site-header">
+      <div className="container nav-inner">
+        <Link to="/" className="brand">
+          <img src={icon} alt="" />
+          Cryptit
+        </Link>
+
+        <div className="nav-right">
+          <nav className="nav-links" aria-label="Main">
+            {links.map((l) => (
+              <NavLink key={l.to} to={l.to} end={l.end} className={linkClass}>
+                {l.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          <button
+            type="button"
+            className="icon-btn"
+            onClick={onToggleTheme}
+            aria-label={mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+          >
+            {mode === 'dark' ? <BulbOutlined /> : <BulbFilled />}
+          </button>
+
+          <button
+            type="button"
+            className="icon-btn nav-burger"
+            onClick={() => setOpen(true)}
+            aria-label="Open menu"
+          >
+            <MenuOutlined />
+          </button>
         </div>
-        <Menu theme='dark'>
-          <Menu.Item icon={<HomeOutlined/>}>
-            <Link to='/'>Home</Link>
-          </Menu.Item>
-          <Menu.Item icon={<FundOutlined/>}>
-            <Link to='/cryptocurrencies'>Cryptocurrencies</Link>
-          </Menu.Item>
+      </div>
 
-          <Menu.Item icon={<BulbOutlined/>}>
-            <Link to='/subsecription'>Subscription</Link>
-          </Menu.Item>
+      <Drawer title="Menu" placement="right" width={280} open={open} onClose={() => setOpen(false)}>
+        <nav className="drawer-links" aria-label="Mobile">
+          {links.map((l) => (
+            <NavLink
+              key={l.to}
+              to={l.to}
+              end={l.end}
+              className={linkClass}
+              onClick={() => setOpen(false)}
+            >
+              {l.icon}
+              {l.label}
+            </NavLink>
+          ))}
+        </nav>
+      </Drawer>
+    </header>
+  );
+};
 
-        </Menu>
-    </div>
-  )
-}
-
-export default Navbar
+export default Navbar;
